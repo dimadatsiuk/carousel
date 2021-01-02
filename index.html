@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slider native JS</title>
+    <style>
+        .container {
+            width: 450px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .carousel {
+            padding: 81px 0;
+            width: 450px;
+            margin: 0 auto
+        }
+        .carousel__inner {
+            width: 450px;
+            margin: 0 auto;
+            position: relative
+        }
+        .carousel .slide {
+            width: 450px;
+            height: 450px
+        }
+        .carousel .slide img {
+            width: 450px;
+            height: 450px;
+            -o-object-fit: cover;
+            object-fit: cover
+        }
+        .carousel .prev,
+        .carousel .next {
+            height: 70px;
+            width: 70px;
+            position: absolute;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+            border: none;
+            background-color: #fff;
+            cursor: pointer
+        }
+        .carousel .prev {
+            left: -70px;
+        }
+        .carousel .next {
+            right: -70px;
+        }
+        .carousel-indicators {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            margin-top: 40px;
+            list-style: none;
+            padding: 0;
+        }
+        .dot {
+            cursor: pointer;
+            background-color: #ffffff;
+            border: solid;
+            border-width: 2px;
+            border-color: gray;
+            margin: 20px 20px 0 20px;
+            width: 60px;
+            height: 10px;
+            outline: none;
+            -webkit-transition: 0.5s all;
+            transition: 0.5s all
+        }
+        .dot:hover {
+            -webkit-box-shadow: 3px 3px 20px #c70101;
+            box-shadow: 3px 3px 20px #c70101;
+            border: none
+        }
+        .dot_active {
+            margin-top: 1px;
+            -webkit-box-shadow: 3px 3px 20px #c70101;
+            box-shadow: 3px 3px 20px #c70101;
+            border-width: 1px;
+            border-color: #c70101
+        }   
+    </style>
+</head>
+<body>
+    <section class="carousel">
+        <div class="container">
+            <div class="carousel__wrapper">
+                <div class="carousel__inner">
+                    <div class="slide">
+                        <img src="https://pbs.twimg.com/profile_images/793021684064419840/RjEjM6z5_400x400.jpg" alt="slide">
+                    </div>
+                    <div class="slide">
+                        <img src="https://i.pinimg.com/originals/ab/b6/a8/abb6a800ab2193fcedd9bda566b7402c.jpg" alt="slide">
+                    </div>
+                    <div class="slide">
+                        <img src="https://i.pinimg.com/originals/11/ab/14/11ab147894a7d2ce866ff88a4aa63655.jpg" alt="slide">
+                    </div>
+                    <div class="slide">
+                        <img src="https://st2.depositphotos.com/1064024/10769/i/600/depositphotos_107694484-stock-photo-little-prince-illustration.jpg" alt="slide">
+                    </div>
+                </div>          
+            </div>
+            <button type="button" class="prev"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 648 648"><path d="M486.5 42.5v571L162.5 328z"/></svg></button>
+            <button type="button" class="next"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                viewBox="0 0 648 648" enable-background="new 0 0 648 648" xml:space="preserve">
+           <polygon points="162.5,613.5 162.5,42.5 486.5,328 "/>
+           </svg></button>
+            
+        </div>
+        
+    </section>
+
+    <script>
+        //get elements
+        const slides = document.querySelectorAll('.slide'),
+              prev = document.querySelector('.prev'),
+              next = document.querySelector('.next'),
+              slidesWrapper = document.querySelector('.carousel__wrapper'),
+              slidesField = document.querySelector('.carousel__inner'),
+              width = parseInt(window.getComputedStyle(slidesWrapper).width);
+        let slideIndex = 1;
+        let offset = 0;
+
+        slidesField.style.width = 100 * slides.length + '%';
+        slidesField.style.display = 'flex';
+        slidesField.style.transition = '0.5s all';
+
+        slidesWrapper.style.overflow = 'hidden';
+        slidesWrapper.style.position = 'relative';
+
+        slides.forEach(slide => {
+            slide.style.width = width + 'px';
+        });
+
+        const indicators = document.createElement('ol'),
+            dots = [];
+
+        indicators.classList.add('carousel-indicators');
+
+        slidesWrapper.append(indicators);
+
+        for (let i = 0; i < slides.length; i++) {
+            const dot = document.createElement('li');
+            dot.classList.add('dot');
+            dot.setAttribute('data-slide-to', i + 1);
+
+            if (i == 0) {
+                dot.classList.add('dot_active');
+            }
+            indicators.append(dot);
+            dots.push(dot);
+
+        }
+
+
+        function changeDots () {
+            dots.forEach(dot => dot.classList.remove('dot_active'));
+            dots[slideIndex - 1].classList.add('dot_active');
+        }
+
+        function transformSlidesField() {
+            slidesField.style.transform = `translateX(-${offset}px)`;
+        }
+
+        next.addEventListener('click', () => {
+            if (offset == width * (slides.length - 1)) {
+                offset = 0;
+            } else {
+                offset += width;
+            }
+
+            transformSlidesField();
+
+            if (slideIndex == slides.length) {
+                slideIndex = 1;
+            } else {
+                slideIndex++;
+            }
+
+            changeDots ();
+        });
+
+        prev.addEventListener('click', () => {
+            if (offset == 0) {
+                offset = width * (slides.length - 1);
+            } else {
+                offset -= width;
+            }
+
+            transformSlidesField();
+
+
+            if (slideIndex == 1) {
+                slideIndex = slides.length;
+            } else {
+                slideIndex--;
+            }
+
+            changeDots ();
+        });
+
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                const slideTo = e.target.getAttribute('data-slide-to');
+
+                slideIndex = slideTo;
+                offset = width * (slideTo - 1);
+
+                transformSlidesField();
+
+                changeDots ();
+
+            });
+        });
+    </script>
+</body>
+</html>

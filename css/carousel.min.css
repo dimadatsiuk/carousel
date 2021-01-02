@@ -1,0 +1,79 @@
+.container {
+    width: 450px;
+    margin: 0 auto;
+    position: relative;
+}
+.carousel {
+    padding: 81px 0;
+    width: 450px;
+    margin: 0 auto
+}
+.carousel__inner {
+    width: 450px;
+    margin: 0 auto;
+    position: relative
+}
+.carousel .slide {
+    width: 450px;
+    height: 450px
+}
+.carousel .slide img {
+    width: 450px;
+    height: 450px;
+    -o-object-fit: cover;
+    object-fit: cover
+}
+.carousel .prev,
+.carousel .next {
+    height: 70px;
+    width: 70px;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    border: none;
+    background-color: #fff;
+    cursor: pointer
+}
+.carousel .prev {
+    left: -70px;
+}
+.carousel .next {
+    right: -70px;
+}
+.carousel-indicators {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin-top: 40px;
+    list-style: none;
+    padding: 0;
+}
+.dot {
+    cursor: pointer;
+    background-color: #ffffff;
+    border: solid;
+    border-width: 2px;
+    border-color: gray;
+    margin: 20px 20px 0 20px;
+    width: 60px;
+    height: 10px;
+    outline: none;
+    -webkit-transition: 0.5s all;
+    transition: 0.5s all
+}
+.dot:hover {
+    -webkit-box-shadow: 3px 3px 20px #c70101;
+    box-shadow: 3px 3px 20px #c70101;
+    border: none
+}
+.dot_active {
+    margin-top: 1px;
+    -webkit-box-shadow: 3px 3px 20px #c70101;
+    box-shadow: 3px 3px 20px #c70101;
+    border-width: 1px;
+    border-color: #c70101
+}
